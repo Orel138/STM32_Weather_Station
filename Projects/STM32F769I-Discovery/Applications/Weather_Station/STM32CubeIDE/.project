@@ -131,6 +131,16 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rng.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_spi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_spi_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_spi_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_tim.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.c</locationURI>
@@ -149,6 +159,71 @@
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_uart_ex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/croutine.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/croutine.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/event_groups.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/event_groups.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/heap_4.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/portable/MemMang/heap_4.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/list.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/list.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/port.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/portable/GCC/ARM_CM7/r0p1/port.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/queue.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/queue.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/stream_buffer.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/stream_buffer.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/tasks.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/tasks.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/timers.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/timers.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_uart_drv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_uart_drv.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_utils.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_utils.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/logging.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

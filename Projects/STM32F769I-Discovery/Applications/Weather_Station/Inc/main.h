@@ -41,7 +41,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+extern UART_HandleTypeDef huart1;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -51,6 +51,8 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void MX_USART1_UART_Init(void);
+void MX_RNG_Init(void);
 
 /* USER CODE BEGIN EFP */
 
