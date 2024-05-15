@@ -20,3 +20,7 @@
 	path = Middlewares/Third_Party/FreeRTOS/coreHTTP
 	url = https://github.com/FreeRTOS/coreHTTP.git
 	fetchRecurseSubmodules = false
+[submodule "Middlewares/Third_Party/FreeRTOS/corePKCS11"]
+	path = Middlewares/Third_Party/FreeRTOS/corePKCS11
+	url = https://github.com/FreeRTOS/corePKCS11.git
+	fetchRecurseSubmodules = false
