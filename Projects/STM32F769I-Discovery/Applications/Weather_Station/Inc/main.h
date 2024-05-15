@@ -31,7 +31,9 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdbool.h"
+#include "string.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -46,7 +48,7 @@ extern UART_HandleTypeDef huart1;
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define xConsoleHandle huart1
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -55,7 +57,8 @@ void MX_USART1_UART_Init(void);
 void MX_RNG_Init(void);
 
 /* USER CODE BEGIN EFP */
-
+int main_app( void );
+int hw_init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

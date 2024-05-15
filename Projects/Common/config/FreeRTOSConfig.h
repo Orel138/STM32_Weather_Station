@@ -27,8 +27,9 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#if !defined(__IASMARM__)
 #include "logging.h"
-//#include "test_execution_config.h"
+#endif
 
 /*-----------------------------------------------------------
 * Application specific definitions.
@@ -188,22 +189,26 @@ extern uint32_t SystemCoreClock;
         }                                               \
     } while( 0 )
 
-/* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
-standard names. */
-#define vPortSVCHandler    SVC_Handler
-#define xPortPendSVHandler PendSV_Handler
-//#define xPortSysTickHandler SysTick_Handler
-
+#if !defined(__IASMARM__)
 #include "stack_macros.h"
+#endif
 
 #define configAPPLICATION_PROVIDES_cOutputBuffer    1
 #define configCOMMAND_INT_MAX_OUTPUT_SIZE           128
 
+#if !defined(__IASMARM__)
 #include "main.h"
+#endif
+
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
 
 #if defined(STM32F769xx)
-#define portGET_RUN_TIME_COUNTER_VALUE()    ( NULL )
+#define portGET_RUN_TIME_COUNTER_VALUE()    ( HAL_GetTick() )
 #endif /* STM32WB5Mxx | STM32WB55xx */
 
+/* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
+standard names. */
+#define vPortSVCHandler    SVC_Handler
+#define xPortPendSVHandler PendSV_Handler
+#define xPortSysTickHandler SysTick_Handler
 #endif /* FREERTOS_CONFIG_H */
