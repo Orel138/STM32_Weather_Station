@@ -28,3 +28,7 @@
 	path = Middlewares/Third_Party/ARM/mbedtls
 	url = https://github.com/Mbed-TLS/mbedtls.git
 	fetchRecurseSubmodules = false
+[submodule "Middlewares/Third_Party/AWS/IoTDeviceDefender"]
+	path = Middlewares/Third_Party/AWS/IoTDeviceDefender
+	url = https://github.com/aws/Device-Defender-for-AWS-IoT-embedded-sdk.git
+	fetchRecurseSubmodules = false
