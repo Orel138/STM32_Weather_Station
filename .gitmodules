@@ -48,3 +48,6 @@
 	path = Middlewares/Third_Party/AWS/OTA
 	url = https://github.com/aws/ota-for-aws-iot-embedded-sdk.git
 	fetchRecurseSubmodules = false
+[submodule "Middlewares/Third_Party/lwip"]
+	path = Middlewares/Third_Party/lwip
+	url = https://github.com/lwip-tcpip/lwip.git
