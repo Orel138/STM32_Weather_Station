@@ -51,3 +51,6 @@
 [submodule "Middlewares/Third_Party/lwip"]
 	path = Middlewares/Third_Party/lwip
 	url = https://github.com/lwip-tcpip/lwip.git
+[submodule "Middlewares/Third_Party/ARM/littlefs"]
+	path = Middlewares/Third_Party/ARM/littlefs
+	url = https://github.com/littlefs-project/littlefs.git
