@@ -44,3 +44,7 @@
 	path = Middlewares/Third_Party/AWS/IoTJobs
 	url = https://github.com/aws/Jobs-for-AWS-IoT-embedded-sdk.git
 	fetchRecurseSubmodules = false
+[submodule "Middlewares/Third_Party/AWS/OTA"]
+	path = Middlewares/Third_Party/AWS/OTA
+	url = https://github.com/aws/ota-for-aws-iot-embedded-sdk.git
+	fetchRecurseSubmodules = false
