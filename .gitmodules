@@ -57,3 +57,6 @@
 [submodule "Middlewares/Third_Party/tinycbor"]
 	path = Middlewares/Third_Party/tinycbor
 	url = https://github.com/intel/tinycbor.git
+[submodule "Middlewares/Third_Party/http-parser"]
+	path = Middlewares/Third_Party/http-parser
+	url = https://github.com/nodejs/http-parser.git
