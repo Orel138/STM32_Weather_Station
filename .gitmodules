@@ -54,3 +54,6 @@
 [submodule "Middlewares/Third_Party/ARM/littlefs"]
 	path = Middlewares/Third_Party/ARM/littlefs
 	url = https://github.com/littlefs-project/littlefs.git
+[submodule "Middlewares/Third_Party/tinycbor"]
+	path = Middlewares/Third_Party/tinycbor
+	url = https://github.com/intel/tinycbor.git
