@@ -90,8 +90,7 @@ int hw_init(void);
 #define OSC_25M_GPIO_Port GPIOH
 
 /* USER CODE BEGIN Private defines */
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "PASSWORD"
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

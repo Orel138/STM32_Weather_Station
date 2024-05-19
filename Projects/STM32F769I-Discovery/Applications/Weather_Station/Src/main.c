@@ -93,19 +93,6 @@ static void vWiFiTask( void * pvArgs )
 	   Error_Handler();
 	}
 
-	while(ESP8266_JoinAccessPoint((uint8_t *)WIFI_SSID, (uint8_t *)WIFI_PASSWORD) != ESP8266_OK)
-	{
-
-	}
-
-	/* Reset the IP address field to 0 */
-	memset(IpAddress, '\0', 15);
-
-	/* Access point joined: start getting IP address */
-	ESP8266_GetIPAddress(ESP8266_STATION_MODE, IpAddress);
-
-	LogInfo("OK!\nGot IP Address: %s\n\n", (char *)IpAddress);
-
 	/* Delete the task when done */
 	vTaskDelete(NULL);
 }

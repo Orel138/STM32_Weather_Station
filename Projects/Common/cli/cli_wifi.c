@@ -23,7 +23,6 @@
 
 /* FreeRTOS */
 #include "FreeRTOS.h"
-#include "message_buffer.h"
 #include "task.h"
 
 /* Project Specific */
@@ -31,7 +30,7 @@
 #include "cli_prv.h"
 #include "logging.h"
 
-/* Project Specific (Wi-Fi Driver for ESP8266)*/
+/* Project Specific (Wi-Fi Driver for ESP8266) */
 #include "esp8266.h"
 #include "esp8266_io.h"
 
@@ -41,8 +40,8 @@
 
 /* Local static functions */
 static void vCommand_WiFi( ConsoleIO_t * pxCIO,
-                          uint32_t ulArgc,
-                          char * ppcArgv[] );
+                           uint32_t ulArgc,
+                           char * ppcArgv[] );
 
 const CLI_Command_Definition_t xCommandDef_wifi =
 {
@@ -52,113 +51,120 @@ const CLI_Command_Definition_t xCommandDef_wifi =
         "    Perform operations on the ESP8266 Wi-Fi module.\r\n"
         "    Usage:\r\n"
         "    wifi <verb> <object> <args>\r\n"
-        "        Valid verbs are { connect, import, export, list }\r\n"
-        "        Valid object types are { key, csr, cert }\r\n"
-        "        Arguments should be specified in --<arg_name> <value>\r\n\n"
-        "    pki connect <ssid> <password>\r\n"
+        "        Valid verbs are { connect, disconnect, status, scan }\r\n"
+        "    wifi connect <ssid> <password>\r\n"
         "        Connect to a Wi-Fi SSID\r\n\n"
-        "    pki disconnect\r\n"
-        "        Disconnect from the current SSID\r\n\n",
+        "    wifi disconnect\r\n"
+        "        Disconnect from the current SSID\r\n\n"
+        "    wifi ip\r\n"
+        "        Get the current ip address\r\n\n"
+        "    wifi scan\r\n"
+        "        Scan for available Wi-Fi networks\r\n\n",
     .pxCommandInterpreter = vCommand_WiFi
 };
 
-/*
- * CLI format:
- * Argc   1    2            3
- * Idx    0    1            2
- *        pki  generate     key
- *        pki  generate     csr
- *        pki  import       cert
- */
-static void vCommand_WiFi( ConsoleIO_t * pxCIO,
-                          uint32_t ulArgc,
-                          char * ppcArgv[] )
-{
-//    const char * pcVerb = NULL;
+#define VERB_ARG_INDEX       1
+#define OBJECT_TYPE_INDEX    2
 
+#define MAX_NUM_TRIAL 10
+
+static void vCommand_WiFi( ConsoleIO_t * pxCIO,
+                           uint32_t ulArgc,
+                           char * ppcArgv[] )
+{
+    const char * pcVerb = NULL;
     BaseType_t xSuccess = pdFALSE;
 
-//    if( ulArgc > VERB_ARG_INDEX )
-//    {
-//        pcVerb = ppcArgv[ VERB_ARG_INDEX ];
+    if( ulArgc > VERB_ARG_INDEX )
+    {
+        pcVerb = ppcArgv[ VERB_ARG_INDEX ];
+
+        if( 0 == strcmp( "connect", pcVerb ) )
+        {
+            if( ulArgc > OBJECT_TYPE_INDEX + 1 )
+            {
+            	char * ssid = strtok(ppcArgv[OBJECT_TYPE_INDEX], "\"");
+            	char * password = strtok(ppcArgv[OBJECT_TYPE_INDEX + 1], "\"");
+
+            	ESP8266_StatusTypeDef status = ESP8266_ERROR;
+            	uint32_t Trial = 0;
+
+            	while(( status = ESP8266_JoinAccessPoint((uint8_t *)ssid, (uint8_t *)password)) != ESP8266_OK)
+            	{
+            		pxCIO->print("Retrying to Join Access Point.\r\n");
+            		Trial++;
+
+            		if (Trial == MAX_NUM_TRIAL) break;
+            	}
+
+                if (status == ESP8266_OK)
+                {
+                    pxCIO->print( "Connected to Wi-Fi network.\r\n" );
+                    xSuccess = pdTRUE;
+                }
+                else
+                {
+                    pxCIO->print( "Failed to connect to Wi-Fi network.\r\n" );
+                    xSuccess = pdFALSE;
+                }
+            }
+            else
+            {
+                pxCIO->print( "Error: SSID and password required for connect command.\r\n" );
+                xSuccess = pdFALSE;
+            }
+        }
+        else if( 0 == strcmp( "disconnect", pcVerb ) )
+        {
+            ESP8266_StatusTypeDef status = ESP8266_QuitAccessPoint();
+
+            if (status == ESP8266_OK)
+            {
+                pxCIO->print( "Disconnected from Wi-Fi network.\r\n" );
+                xSuccess = pdTRUE;
+            }
+            else
+            {
+                pxCIO->print( "Failed to disconnect from Wi-Fi network.\r\n" );
+                xSuccess = pdFALSE;
+            }
+        }
+        else if( 0 == strcmp( "ip", pcVerb ) )
+        {
+            uint8_t ipAddress[15];
+            memset(ipAddress, '\0', sizeof(ipAddress));
+            ESP8266_StatusTypeDef status = ESP8266_GetIPAddress(ESP8266_STATION_MODE, ipAddress);
+
+            if (status == ESP8266_OK)
+            {
+                pxCIO->print( "Current IP Address: " );
+                pxCIO->write( (char *)ipAddress, strlen((char *)ipAddress) );
+                pxCIO->print( "\r\n" );
+                xSuccess = pdTRUE;
+            }
+            else
+            {
+                pxCIO->print( "Failed to get IP address.\r\n" );
+                xSuccess = pdFALSE;
+            }
+        }
+        else if( 0 == strcmp( "scan", pcVerb ) )
+        {
+//            // Assuming you have a function to scan and print available networks
+//            ESP8266_StatusTypeDef status = ESP8266_ListAccessPoints();
 //
-//        if( 0 == strcmp( "connect", pcVerb ) )
-//        {
-//            if( ulArgc > OBJECT_TYPE_INDEX )
+//            if (status == ESP8266_OK)
 //            {
-//                const char * pcObject = ppcArgv[ OBJECT_TYPE_INDEX ];
-//
-//                if( 0 == strcmp( "key", pcObject ) )
-//                {
-//                    vSubCommand_GenerateKey( pxCIO, ulArgc, ppcArgv );
-//                    xSuccess = pdTRUE;
-//                }
-//                else
-//                {
-//                    pxCIO->print( "Error: Invalid object type: '" );
-//                    pxCIO->print( pcObject );
-//                    pxCIO->print( "' specified for generate command.\r\n" );
-//                    xSuccess = pdFALSE;
-//                }
+//                pxCIO->print( "Scan completed.\r\n" );
+//                xSuccess = pdTRUE;
 //            }
 //            else
 //            {
-//                pxCIO->print( "Error: Not enough arguments to 'pki generate' command.\r\n" );
-//                xSuccess = pdFALSE;
+                pxCIO->print( "Failed to scan for Wi-Fi networks.\r\n" );
+                xSuccess = pdFALSE;
 //            }
-//        }
-//        else if( 0 == strcmp( "import", pcVerb ) )
-//        {
-//            if( ulArgc > OBJECT_TYPE_INDEX )
-//            {
-//                const char * pcObject = ppcArgv[ OBJECT_TYPE_INDEX ];
-//
-//                if( 0 == strcmp( "key", pcObject ) )
-//                {
-//                    vSubCommand_ImportPubKey( pxCIO, ulArgc, ppcArgv );
-//                    xSuccess = pdTRUE;
-//                }
-//                else
-//                {
-//                    pxCIO->print( "Error: Invalid object type: '" );
-//                    pxCIO->print( pcObject );
-//                    pxCIO->print( "' specified for import command.\r\n" );
-//                    xSuccess = pdFALSE;
-//                }
-//            }
-//        }
-//        else if( 0 == strcmp( "export", pcVerb ) )
-//        {
-//            xSuccess = pdFALSE;
-//
-//            if( ulArgc > OBJECT_TYPE_INDEX )
-//            {
-//                const char * pcObject = ppcArgv[ OBJECT_TYPE_INDEX ];
-//
-//                if( 0 == strcmp( "key", pcObject ) )
-//                {
-//                    vSubCommand_ExportKey( pxCIO, ulArgc, ppcArgv );
-//                    xSuccess = pdTRUE;
-//                }
-//                else if( 0 == strcmp( "cert", pcObject ) )
-//                {
-//                    vSubCommand_ExportCertificate( pxCIO, ulArgc, ppcArgv );
-//                    xSuccess = pdTRUE;
-//                }
-//                else
-//                {
-//                    pxCIO->print( "Error: Invalid object type: '" );
-//                    pxCIO->print( pcObject );
-//                    pxCIO->print( "' specified for import command.\r\n" );
-//                    xSuccess = pdFALSE;
-//                }
-//            }
-//        }
-//        else if( 0 == strcmp( "list", pcVerb ) )
-//        {
-//            xSuccess = pdFALSE;
-//        }
-//    }
+        }
+    }
 
     if( xSuccess == pdFALSE )
     {
