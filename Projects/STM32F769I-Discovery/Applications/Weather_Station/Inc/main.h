@@ -34,6 +34,11 @@ extern "C" {
 #include "stdbool.h"
 #include "string.h"
 #include "stdio.h"
+
+/* Project Specific (Wi-Fi Driver for ESP8266)*/
+#include "esp8266.h"
+#include "esp8266_io.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -44,17 +49,20 @@ extern "C" {
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart5;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define xConsoleHandle huart1
+#define xESP8266Handle huart5
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 void MX_USART1_UART_Init(void);
 void MX_RNG_Init(void);
+void MX_UART5_Init(void);
 
 /* USER CODE BEGIN EFP */
 int main_app( void );
@@ -62,6 +70,12 @@ int hw_init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ESP8266_TX_Pin GPIO_PIN_12
+#define ESP8266_TX_GPIO_Port GPIOC
+#define ESP8266_RST_Pin GPIO_PIN_14
+#define ESP8266_RST_GPIO_Port GPIOJ
+#define ESP8266_RX_Pin GPIO_PIN_2
+#define ESP8266_RX_GPIO_Port GPIOD
 #define VCP_RX_Pin GPIO_PIN_10
 #define VCP_RX_GPIO_Port GPIOA
 #define RCC_OSC32_IN_Pin GPIO_PIN_14
@@ -76,7 +90,8 @@ int hw_init(void);
 #define OSC_25M_GPIO_Port GPIOH
 
 /* USER CODE BEGIN Private defines */
-
+#define WIFI_SSID "SSID"
+#define WIFI_PASSWORD "PASSWORD"
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

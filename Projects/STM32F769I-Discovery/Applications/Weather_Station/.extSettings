@@ -2,7 +2,8 @@
 HeaderPath=../Inc;../../../../../Projects/Common/cli;../../../../../Projects/Common/config;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/include;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/portable/GCC/ARM_CM7/r0p1;../../../../../Drivers/CMSIS/Core/Include;
 
 [Groups]
-Application/User/Common/cli=../../../../../Projects/Common/cli/cli_main.c;../../../../../Projects/Common/cli/cli_uart_drv.c;../../../../../Projects/Common/cli/cli_utils.c;../../../../../Projects/Common/cli/logging.c;
+Application/User/cli=../../../../../Projects/Common/cli/cli_main.c;../../../../../Projects/Common/cli/cli_uart_drv.c;../../../../../Projects/Common/cli/cli_utils.c;../../../../../Projects/Common/cli/logging.c;../../../../../Projects/Common/cli/cli_wifi.c;
+Application/User/esp8266=../Src/esp8266.c;../Src/esp8266_io.c;
 Middlewares/FreeRTOS/FreeRTOS-Kernel=../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/croutine.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/event_groups.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/list.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/queue.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/stream_buffer.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/tasks.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/timers.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/portable/GCC/ARM_CM7/r0p1/port.c;../../../../../Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/portable/MemMang/heap_4.c;
 
 [Others]

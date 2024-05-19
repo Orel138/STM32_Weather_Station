@@ -166,6 +166,41 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/cli/cli_main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/cli/cli_uart_drv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_uart_drv.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/cli/cli_utils.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_utils.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/cli/cli_wifi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_wifi.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/cli/logging.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/esp8266/esp8266.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/esp8266/esp8266_io.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266_io.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/croutine.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/croutine.c</locationURI>
@@ -209,26 +244,6 @@
 			<name>Middlewares/FreeRTOS/FreeRTOS-Kernel/timers.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/timers.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Common/cli/cli_main.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Common/cli/cli_uart_drv.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_uart_drv.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Common/cli/cli_utils.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_utils.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Common/cli/logging.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

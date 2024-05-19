@@ -49,10 +49,11 @@
 
 RNG_HandleTypeDef hrng;
 
+UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
+uint8_t IpAddress[15];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -79,6 +80,36 @@ static void vHeartbeatTask( void * pvParameters )
     }
 }
 
+static void vWiFiTask( void * pvArgs )
+{
+	ESP8266_StatusTypeDef Status;
+
+	/* Initialize the WiFi module ESP8266 */
+	Status = ESP8266_Init();
+
+	/* Check if initialization passed */
+	if (Status != ESP8266_OK)
+	{
+	   Error_Handler();
+	}
+
+	while(ESP8266_JoinAccessPoint((uint8_t *)WIFI_SSID, (uint8_t *)WIFI_PASSWORD) != ESP8266_OK)
+	{
+
+	}
+
+	/* Reset the IP address field to 0 */
+	memset(IpAddress, '\0', 15);
+
+	/* Access point joined: start getting IP address */
+	ESP8266_GetIPAddress(ESP8266_STATION_MODE, IpAddress);
+
+	LogInfo("OK!\nGot IP Address: %s\n\n", (char *)IpAddress);
+
+	/* Delete the task when done */
+	vTaskDelete(NULL);
+}
+
 void vInitTask( void * pvArgs )
 {
     BaseType_t xResult;
@@ -91,11 +122,16 @@ void vInitTask( void * pvArgs )
     xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
     configASSERT( xResult == pdTRUE );
 
+    xResult = xTaskCreate( vWiFiTask, "WiFi", 2048, NULL, tskIDLE_PRIORITY, NULL );
+    configASSERT( xResult == pdTRUE );
+
     while( 1 )
     {
         vTaskSuspend( NULL );
     }
 }
+
+
 /* USER CODE END 0 */
 
 /**
@@ -111,6 +147,14 @@ int main(void)
 
   /* MPU Configuration--------------------------------------------------------*/
   MPU_Config();
+
+  /* Enable the CPU Cache */
+
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -132,6 +176,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_RNG_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
 
   /* Initialize uart for logging before cli is up and running */
@@ -249,6 +294,42 @@ void MX_RNG_Init(void)
 }
 
 /**
+  * @brief UART5 Initialization Function
+  * @param None
+  * @retval None
+  */
+void MX_UART5_Init(void)
+{
+
+  /* USER CODE BEGIN UART5_Init 0 */
+
+  /* USER CODE END UART5_Init 0 */
+
+  /* USER CODE BEGIN UART5_Init 1 */
+
+  /* USER CODE END UART5_Init 1 */
+  huart5.Instance = UART5;
+  huart5.Init.BaudRate = 115200;
+  huart5.Init.WordLength = UART_WORDLENGTH_8B;
+  huart5.Init.StopBits = UART_STOPBITS_1;
+  huart5.Init.Parity = UART_PARITY_NONE;
+  huart5.Init.Mode = UART_MODE_TX_RX;
+  huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart5.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart5.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart5.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_DMADISABLEONERROR_INIT;
+  huart5.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR;
+  if (HAL_UART_Init(&huart5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART5_Init 2 */
+
+  /* USER CODE END UART5_Init 2 */
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -295,9 +376,21 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOJ_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(ESP8266_RST_GPIO_Port, ESP8266_RST_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin : ESP8266_RST_Pin */
+  GPIO_InitStruct.Pin = ESP8266_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(ESP8266_RST_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : CEC_CLK_Pin */
   GPIO_InitStruct.Pin = CEC_CLK_Pin;
@@ -308,6 +401,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(CEC_CLK_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
+  HAL_GPIO_WritePin(ESP8266_RST_GPIO_Port, ESP8266_RST_Pin, GPIO_PIN_SET);
+/* Wait for the ESP8266 device to be ready */
+  HAL_Delay(500);
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
@@ -329,6 +425,8 @@ int hw_init(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_RNG_Init();
+
+  return 0;
 
 }
 
