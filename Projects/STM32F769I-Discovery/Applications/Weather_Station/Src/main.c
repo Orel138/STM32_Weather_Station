@@ -66,57 +66,43 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-static void vHeartbeatTask( void * pvParameters )
-{
-    ( void ) pvParameters;
+//static void vWiFiTask( void * pvArgs )
+//{
+//	ESP8266_StatusTypeDef Status;
+//
+//	/* Initialize the WiFi module ESP8266 */
+//	Status = ESP8266_Init();
+//
+//	/* Check if initialization passed */
+//	if (Status != ESP8266_OK)
+//	{
+//	   Error_Handler();
+//	}
+//
+//	/* Delete the task when done */
+//	vTaskDelete(NULL);
+//}
 
-    //HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-
-    while(1)
-    {
-    	//HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-
-    	vTaskDelay(1000);
-    }
-}
-
-static void vWiFiTask( void * pvArgs )
-{
-	ESP8266_StatusTypeDef Status;
-
-	/* Initialize the WiFi module ESP8266 */
-	Status = ESP8266_Init();
-
-	/* Check if initialization passed */
-	if (Status != ESP8266_OK)
-	{
-	   Error_Handler();
-	}
-
-	/* Delete the task when done */
-	vTaskDelete(NULL);
-}
-
-void vInitTask( void * pvArgs )
-{
-    BaseType_t xResult;
-
-    ( void ) pvArgs;
-
-    xResult = xTaskCreate( Task_CLI, "cli", 2048, NULL, 10, NULL );
-    configASSERT( xResult == pdTRUE );
-
-    xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
-    configASSERT( xResult == pdTRUE );
-
-    xResult = xTaskCreate( vWiFiTask, "WiFi", 2048, NULL, tskIDLE_PRIORITY, NULL );
-    configASSERT( xResult == pdTRUE );
-
-    while( 1 )
-    {
-        vTaskSuspend( NULL );
-    }
-}
+//void vInitTask( void * pvArgs )
+//{
+//    BaseType_t xResult;
+//
+//    ( void ) pvArgs;
+//
+//    xResult = xTaskCreate( Task_CLI, "cli", 2048, NULL, 10, NULL );
+//    configASSERT( xResult == pdTRUE );
+//
+//    xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
+//    configASSERT( xResult == pdTRUE );
+//
+//    xResult = xTaskCreate( vWiFiTask, "WiFi", 2048, NULL, tskIDLE_PRIORITY, NULL );
+//    configASSERT( xResult == pdTRUE );
+//
+//    while( 1 )
+//    {
+//        vTaskSuspend( NULL );
+//    }
+//}
 
 
 /* USER CODE END 0 */
@@ -125,74 +111,6 @@ void vInitTask( void * pvArgs )
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
-{
-
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MPU Configuration--------------------------------------------------------*/
-  MPU_Config();
-
-  /* Enable the CPU Cache */
-
-  /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
-
-  /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART1_UART_Init();
-  MX_RNG_Init();
-  MX_UART5_Init();
-  /* USER CODE BEGIN 2 */
-
-  /* Initialize uart for logging before cli is up and running */
-  vInitLoggingEarly();
-  vLoggingInit();
-
-  LogInfo( "HW Init Complete" );
-
-  xTaskCreate( vInitTask, "Init", 1024, NULL, 8, NULL );
-
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-
-  /* Start scheduler */
-  vTaskStartScheduler();
-
-  /* Initialize threads */
-  LogError( "Kernel start returned." );
-
-  while (1)
-  {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
-}
 
 /**
   * @brief System Clock Configuration
@@ -400,6 +318,14 @@ int hw_init(void)
   /* MPU Configuration--------------------------------------------------------*/
   MPU_Config();
 
+  /* Enable the CPU Cache */
+
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
+
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -412,127 +338,30 @@ int hw_init(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_RNG_Init();
+  MX_UART5_Init();
+
+  ESP8266_StatusTypeDef Status;
+
+  /* Initialize the WiFi module ESP8266 */
+  Status = ESP8266_Init();
+
+  /* Check if initialization passed */
+  if (Status != ESP8266_OK)
+  {
+	  Error_Handler();
+  }
+
+  /* Initialize uart for logging before cli is up and running */
+  vInitLoggingEarly();
+  vLoggingInit();
+
+  LogInfo( "HW Init Complete" );
 
   return 0;
 
 }
 
 /*-----------------------------------------------------------*/
-
-/* configUSE_STATIC_ALLOCATION is set to 1, so the application must provide an
- * implementation of vApplicationGetIdleTaskMemory() to provide the memory that is
- * used by the Idle task. */
-void vApplicationGetIdleTaskMemory( StaticTask_t ** ppxIdleTaskTCBBuffer,
-                                    StackType_t ** ppxIdleTaskStackBuffer,
-                                    uint32_t * pulIdleTaskStackSize )
-{
-    /* If the buffers to be provided to the Idle task are declared inside this
-     * function then they must be declared static - otherwise they will be allocated on
-     * the stack and so not exists after this function exits. */
-    static StaticTask_t xIdleTaskTCB;
-    static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
-
-    /* Pass out a pointer to the StaticTask_t structure in which the Idle task's
-     * state will be stored. */
-    *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
-
-    /* Pass out the array that will be used as the Idle task's stack. */
-    *ppxIdleTaskStackBuffer = uxIdleTaskStack;
-
-    /* Pass out the size of the array pointed to by *ppxIdleTaskStackBuffer.
-     * Note that, as the array is necessarily of type StackType_t,
-     * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
-    *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
-}
-
-/*-----------------------------------------------------------*/
-
-/* configUSE_STATIC_ALLOCATION and configUSE_TIMERS are both set to 1, so the
- * application must provide an implementation of vApplicationGetTimerTaskMemory()
- * to provide the memory that is used by the Timer service task. */
-void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
-                                     StackType_t ** ppxTimerTaskStackBuffer,
-                                     uint32_t * pulTimerTaskStackSize )
-{
-    /* If the buffers to be provided to the Timer task are declared inside this
-     * function then they must be declared static - otherwise they will be allocated on
-     * the stack and so not exists after this function exits. */
-    static StaticTask_t xTimerTaskTCB;
-    static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
-
-    /* Pass out a pointer to the StaticTask_t structure in which the Timer
-     * task's state will be stored. */
-    *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
-
-    /* Pass out the array that will be used as the Timer task's stack. */
-    *ppxTimerTaskStackBuffer = uxTimerTaskStack;
-
-    /* Pass out the size of the array pointed to by *ppxTimerTaskStackBuffer.
-     * Note that, as the array is necessarily of type StackType_t,
-     * configMINIMAL_STACK_SIZE is specified in words, not bytes. */
-    *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
-}
-
-/*-----------------------------------------------------------*/
-
-void vApplicationMallocFailedHook( void )
-{
-    LogError( "Malloc failed" );
-
-    while( 1 )
-    {
-        __NOP();
-    }
-}
-
-/*-----------------------------------------------------------*/
-
-void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                    char * pcTaskName )
-
-{
-    volatile uint32_t ulSetToZeroToStepOut = 1UL;
-
-    taskENTER_CRITICAL();
-
-    LogSys( "Stack overflow in %s", pcTaskName ); /* WARN: The log message will not be output until ulSetToZeroToStepOut is reset by the user. */
-    ( void ) xTask;
-
-    while( ulSetToZeroToStepOut != 0 )
-    {
-        __NOP();
-    }
-
-    taskEXIT_CRITICAL();
-}
-
-/*-----------------------------------------------------------*/
-
-#if configUSE_IDLE_HOOK == 1
-void vApplicationIdleHook( void )
-{
-//    vPetWatchdog();
-}
-#endif /* configUSE_IDLE_HOOK == 1 */
-
-/*-----------------------------------------------------------*/
-
-void vDoSystemReset( void )
-{
-//    vPetWatchdog();
-
-    if( xTaskGetSchedulerState() == taskSCHEDULER_RUNNING )
-    {
-        vTaskSuspendAll();
-    }
-
-    LogSys( "System Reset in progress." );
-
-    /* Drain log buffers */
-    vDyingGasp();
-
-    NVIC_SystemReset();
-}
 
 /* USER CODE END 4 */
 
