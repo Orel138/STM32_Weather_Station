@@ -72,6 +72,8 @@ int hw_init(void);
 /* Private defines -----------------------------------------------------------*/
 #define ESP8266_TX_Pin GPIO_PIN_12
 #define ESP8266_TX_GPIO_Port GPIOC
+#define LED1_Pin GPIO_PIN_13
+#define LED1_GPIO_Port GPIOJ
 #define ESP8266_RST_Pin GPIO_PIN_14
 #define ESP8266_RST_GPIO_Port GPIOJ
 #define ESP8266_RX_Pin GPIO_PIN_2
@@ -88,6 +90,11 @@ int hw_init(void);
 #define CEC_CLK_GPIO_Port GPIOA
 #define OSC_25M_Pin GPIO_PIN_0
 #define OSC_25M_GPIO_Port GPIOH
+#define LED2_Pin GPIO_PIN_5
+#define LED2_GPIO_Port GPIOJ
+#define USER_BUTTON_Pin GPIO_PIN_0
+#define USER_BUTTON_GPIO_Port GPIOA
+#define USER_BUTTON_EXTI_IRQn EXTI0_IRQn
 
 /* USER CODE BEGIN Private defines */
 

@@ -69,13 +69,13 @@ static void vHeartbeatTask( void * pvParameters )
 {
     ( void ) pvParameters;
     
-//    HAL_GPIO_WritePin( LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET );
+    HAL_GPIO_WritePin( LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET );
 
     while(1)
     {
         vTaskDelay( pdMS_TO_TICKS( 1000 ) );
 
-//        HAL_GPIO_TogglePin( LED_BLUE_GPIO_Port, LED_BLUE_Pin );
+        HAL_GPIO_TogglePin( LED1_GPIO_Port, LED1_Pin );
     }
 }
 
@@ -353,11 +353,11 @@ void vDoSystemReset( void )
     NVIC_SystemReset();
 }
 
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-//{
-//  if(GPIO_Pin == GPIO_PIN_13) {
-//    HAL_GPIO_TogglePin( LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
-//  } else {
-//      __NOP();
-//  }
-//}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  if(GPIO_Pin == USER_BUTTON_Pin) {
+    HAL_GPIO_TogglePin( LED2_GPIO_Port, LED2_Pin);
+  } else {
+      __NOP();
+  }
+}
