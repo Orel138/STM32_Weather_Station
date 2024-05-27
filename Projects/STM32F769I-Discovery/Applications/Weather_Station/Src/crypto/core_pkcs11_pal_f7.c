@@ -1,7 +1,7 @@
 
 /**
- * @file pkcs11_pal_h7.c
- * @brief Limited STM32H7 internal flash file save and read implementation
+ * @file pkcs11_pal_f7.c
+ * @brief Limited STM32F7 internal flash file save and read implementation
  * for PKCS #11 based on mbedTLS with for software keys. This
  * file deviates from the FreeRTOS style standard for some function names and
  * data types in order to maintain compliance with the PKCS #11 standard.
@@ -23,9 +23,9 @@
 #include <string.h>
 
 #include "pkcs11_user_config.h"
-#include "data_saes_encryption.h"
-#include "appli_flash_layout.h"
-#include "low_level_ext_flash.h"
+//#include "data_saes_encryption.h"
+//#include "appli_flash_layout.h"
+//#include "low_level_ext_flash.h"
 
 #ifndef PKCS11_PAL_EXT_FLASH_ENCRYPTION
 #define PKCS11_PAL_EXT_FLASH_ENCRYPTION 1
@@ -174,7 +174,7 @@ static CK_RV prvReadData( const char * pcFileName,
 
 CK_RV PKCS11_PAL_Initialize( void )
 {
-  FLASH_Init_User_Config((void *)lUserConfigPtr, sizeof(user_config_t));
+//  FLASH_Init_User_Config((void *)lUserConfigPtr, sizeof(user_config_t));
 
   return CKR_OK;
 }
@@ -240,14 +240,14 @@ CK_OBJECT_HANDLE PKCS11_PAL_SaveObject( CK_ATTRIBUTE_PTR pxLabel,
       xHandle = ( CK_OBJECT_HANDLE ) eInvalidHandle;
     }
 
-    if(config_set_data() != -1)
-    {
-        ret = 0;
-    }
-    else
-    {
-        ret = -1;
-    }
+//    if(config_set_data() != -1)
+//    {
+//        ret = 0;
+//    }
+//    else
+//    {
+//        ret = -1;
+//    }
     
     if( ret < 0 )
     {
@@ -387,31 +387,31 @@ CK_RV PKCS11_PAL_DestroyObject( CK_OBJECT_HANDLE xHandle )
   */
 uint32_t config_set_data(void)
 {
-  int32_t status = ARM_DRIVER_ERROR;
-
-  // Erase flash sectors
-  
-  for(uint32_t addr = FLASH_CREDENTIALS_AREA_BEGIN_OFFSET ; addr <= (FLASH_CREDENTIALS_AREA_BEGIN_OFFSET + sizeof(user_config_t)); addr+= EXT_FLASH_SECTOR_SIZE)
-  {
-    Ext_Flash_EraseSector(addr);
-  }
-  
-#ifdef PKCS11_PAL_EXT_FLASH_ENCRYPTION
-
-  SAES_EncryptData((uint32_t *) lUserConfigPtr, (sizeof(user_config_t)/sizeof(uint32_t)), (uint32_t *) &lUserConfig_encrypted, (sizeof(user_config_t)/sizeof(uint32_t)));
-
-  status = FLASH_update((void *) &lUserConfig_encrypted, sizeof(user_config_t));
-  
-  memset( &lUserConfig_encrypted, 0x00, sizeof( user_config_t ) );
-#else
-  status = FLASH_update((void *) lUserConfigPtr, sizeof(user_config_t));
-#endif /* PKCS11_PAL_EXT_FLASH_ENCRYPTION */
-
-  if (status != ARM_DRIVER_OK)
-  {
-    LogError("config_set_data failure (%d)\r\n", status);
-    return -1;
-  }
+//  int32_t status = ARM_DRIVER_ERROR;
+//
+//  // Erase flash sectors
+//
+//  for(uint32_t addr = FLASH_CREDENTIALS_AREA_BEGIN_OFFSET ; addr <= (FLASH_CREDENTIALS_AREA_BEGIN_OFFSET + sizeof(user_config_t)); addr+= EXT_FLASH_SECTOR_SIZE)
+//  {
+//    Ext_Flash_EraseSector(addr);
+//  }
+//
+//#ifdef PKCS11_PAL_EXT_FLASH_ENCRYPTION
+//
+//  SAES_EncryptData((uint32_t *) lUserConfigPtr, (sizeof(user_config_t)/sizeof(uint32_t)), (uint32_t *) &lUserConfig_encrypted, (sizeof(user_config_t)/sizeof(uint32_t)));
+//
+//  status = FLASH_update((void *) &lUserConfig_encrypted, sizeof(user_config_t));
+//
+//  memset( &lUserConfig_encrypted, 0x00, sizeof( user_config_t ) );
+//#else
+//  status = FLASH_update((void *) lUserConfigPtr, sizeof(user_config_t));
+//#endif /* PKCS11_PAL_EXT_FLASH_ENCRYPTION */
+//
+//  if (status != ARM_DRIVER_OK)
+//  {
+//    LogError("config_set_data failure (%d)\r\n", status);
+//    return -1;
+//  }
 
   return 0;
 }
@@ -423,23 +423,23 @@ uint32_t config_set_data(void)
   */
 uint32_t config_get_data(void)
 {
-  int32_t status = ARM_DRIVER_ERROR;
-
-  status = Ext_Flash_ReadData(FLASH_CREDENTIALS_AREA_BEGIN_OFFSET,(void*) &lUserConfig_encrypted, sizeof(user_config_t));
-  
-  if (status != ARM_DRIVER_OK)
-  {
-    LogError("config_get_data failed with status %d\r\n", status);
-    return -1;
-  }
-  
-#ifdef PKCS11_PAL_EXT_FLASH_ENCRYPTION
-  SAES_DecryptData((uint32_t *) &lUserConfig_encrypted, (sizeof(user_config_t)/sizeof(uint32_t)), (uint32_t *) lUserConfigPtr, (sizeof(user_config_t)/sizeof(uint32_t)));
-#else
-  memcpy(lUserConfigPtr, &lUserConfig_encrypted, sizeof(user_config_t));
-#endif
-  
-  memset( &lUserConfig_encrypted, 0x00, sizeof( user_config_t ) );
-  
+//  int32_t status = ARM_DRIVER_ERROR;
+//
+//  status = Ext_Flash_ReadData(FLASH_CREDENTIALS_AREA_BEGIN_OFFSET,(void*) &lUserConfig_encrypted, sizeof(user_config_t));
+//
+//  if (status != ARM_DRIVER_OK)
+//  {
+//    LogError("config_get_data failed with status %d\r\n", status);
+//    return -1;
+//  }
+//
+//#ifdef PKCS11_PAL_EXT_FLASH_ENCRYPTION
+//  SAES_DecryptData((uint32_t *) &lUserConfig_encrypted, (sizeof(user_config_t)/sizeof(uint32_t)), (uint32_t *) lUserConfigPtr, (sizeof(user_config_t)/sizeof(uint32_t)));
+//#else
+//  memcpy(lUserConfigPtr, &lUserConfig_encrypted, sizeof(user_config_t));
+//#endif
+//
+//  memset( &lUserConfig_encrypted, 0x00, sizeof( user_config_t ) );
+//
   return 0;
 }
