@@ -60,3 +60,6 @@
 [submodule "Middlewares/Third_Party/http-parser"]
 	path = Middlewares/Third_Party/http-parser
 	url = https://github.com/nodejs/http-parser.git
+[submodule "Middlewares/Third_Party/FreeRTOS/coreMQTT"]
+	path = Middlewares/Third_Party/FreeRTOS/coreMQTT
+	url = https://github.com/FreeRTOS/coreMQTT.git
