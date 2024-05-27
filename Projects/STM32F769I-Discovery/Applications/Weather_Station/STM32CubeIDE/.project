@@ -226,36 +226,6 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/tinycbor/src/cborvalidation.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/cli/cli_main.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/cli/cli_rngtest.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_rngtest.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/cli/cli_uart_drv.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_uart_drv.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/cli/cli_utils.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_utils.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/cli/cli_wifi.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_wifi.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/cli/logging.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
-		</link>
-		<link>
 			<name>Application/User/crypto/rng_alt_stm32.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/crypto/rng_alt_stm32.c</locationURI>
@@ -269,16 +239,6 @@
 			<name>Application/User/esp8266/esp8266_io.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266_io.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/sys/mbedtls_freertos_port.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/mbedtls_freertos_port.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/sys/newlibc_stubs.c</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/newlibc_stubs.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ARM/mbedtls/aes.c</name>
@@ -596,6 +556,21 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/FreeRTOS-Kernel/timers.c</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/FreeRTOS/corePKCS11/core_pkcs11.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/corePKCS11/source/core_pkcs11.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/corePKCS11/core_pkcs11_mbedtls.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/corePKCS11/source/portable/mbedtls/core_pkcs11_mbedtls.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/FreeRTOS/corePKCS11/core_pki_utils.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/corePKCS11/source/core_pki_utils.c</locationURI>
+		</link>
+		<link>
 			<name>Middlewares/lwip/api/api_lib.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/lwip/src/api/api_lib.c</locationURI>
@@ -766,7 +741,47 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/lwip/src/core/udp.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/net/lwip_port/sys_arch.c</name>
+			<name>Application/User/Common/cli/cli_main.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_rngtest.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_rngtest.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_uart_drv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_uart_drv.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_utils.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_utils.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/cli_wifi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_wifi.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/cli/logging.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/sys/mbedtls_freertos_port.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/mbedtls_freertos_port.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/sys/newlibc_stubs.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/newlibc_stubs.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/net/lwip_port/sys_arch.c</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Common/net/lwip_port/src/sys_arch.c</locationURI>
 		</link>
