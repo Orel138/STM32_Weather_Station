@@ -346,8 +346,8 @@ void Task_CLI( void * pvParameters )
     FreeRTOS_CLIRegisterCommand( &xCommandDef_assert );
     FreeRTOS_CLIRegisterCommand( &xCommandDef_clear );
     FreeRTOS_CLIRegisterCommand( &xCommandDef_rngtest );
-    FreeRTOS_CLIRegisterCommand( &xCommandDef_pki );
-    FreeRTOS_CLIRegisterCommand( &xCommandDef_conf );
+//    FreeRTOS_CLIRegisterCommand( &xCommandDef_pki );
+//    FreeRTOS_CLIRegisterCommand( &xCommandDef_conf );
 
     FreeRTOS_CLIRegisterCommand( &xCommandDef_wifi );
 

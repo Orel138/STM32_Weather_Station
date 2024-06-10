@@ -66,44 +66,6 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//static void vWiFiTask( void * pvArgs )
-//{
-//	ESP8266_StatusTypeDef Status;
-//
-//	/* Initialize the WiFi module ESP8266 */
-//	Status = ESP8266_Init();
-//
-//	/* Check if initialization passed */
-//	if (Status != ESP8266_OK)
-//	{
-//	   Error_Handler();
-//	}
-//
-//	/* Delete the task when done */
-//	vTaskDelete(NULL);
-//}
-
-//void vInitTask( void * pvArgs )
-//{
-//    BaseType_t xResult;
-//
-//    ( void ) pvArgs;
-//
-//    xResult = xTaskCreate( Task_CLI, "cli", 2048, NULL, 10, NULL );
-//    configASSERT( xResult == pdTRUE );
-//
-//    xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
-//    configASSERT( xResult == pdTRUE );
-//
-//    xResult = xTaskCreate( vWiFiTask, "WiFi", 2048, NULL, tskIDLE_PRIORITY, NULL );
-//    configASSERT( xResult == pdTRUE );
-//
-//    while( 1 )
-//    {
-//        vTaskSuspend( NULL );
-//    }
-//}
-
 
 /* USER CODE END 0 */
 
@@ -363,6 +325,7 @@ int hw_init(void)
   {
 	  Error_Handler();
   }
+
 
   /* Initialize uart for logging before cli is up and running */
   vInitLoggingEarly();

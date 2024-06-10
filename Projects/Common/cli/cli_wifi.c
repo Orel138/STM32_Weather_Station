@@ -33,10 +33,13 @@
 /* Project Specific (Wi-Fi Driver for ESP8266) */
 #include "esp8266.h"
 #include "esp8266_io.h"
+#include "esp8266_rest_api.h"
 
 /* Standard Lib */
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 
 /* Local static functions */
 static void vCommand_WiFi( ConsoleIO_t * pxCIO,
@@ -59,14 +62,14 @@ const CLI_Command_Definition_t xCommandDef_wifi =
         "    wifi ip\r\n"
         "        Get the current ip address\r\n\n"
         "    wifi scan\r\n"
-        "        Scan for available Wi-Fi networks\r\n\n",
+        "        Scan for available Wi-Fi networks\r\n\n"
+        "    wifi ntp\r\n"
+        "        Get the current time from an NTP server\r\n\n",
     .pxCommandInterpreter = vCommand_WiFi
 };
 
 #define VERB_ARG_INDEX       1
 #define OBJECT_TYPE_INDEX    2
-
-#define MAX_NUM_TRIAL 10
 
 static void vCommand_WiFi( ConsoleIO_t * pxCIO,
                            uint32_t ulArgc,
@@ -164,6 +167,40 @@ static void vCommand_WiFi( ConsoleIO_t * pxCIO,
                 xSuccess = pdFALSE;
 //            }
         }
+        else if( 0 == strcmp( "get", pcVerb ) )
+		{
+        	ESP8266_StatusTypeDef Result = ESP8266_OK;
+        	char * response = NULL;
+			size_t response_size = 0;
+
+        	Result = get_weather_data("Grenoble","FR", response, response_size);
+        	if (Result != ESP8266_OK)
+        	{
+				/* Call the error Handler */
+				Error_Handler();
+			}
+
+        	pxCIO->write( (char *)response, response_size);
+
+			xSuccess = pdTRUE;
+		}
+        else if( 0 == strcmp( "put", pcVerb ) )
+		{
+			ESP8266_StatusTypeDef Result = ESP8266_OK;
+			char * response = NULL;
+			size_t response_size = 0;
+
+			Result = send_telemetry_data(0, 0, NULL, NULL);
+			if (Result != ESP8266_OK)
+			{
+				/* Call the error Handler */
+				Error_Handler();
+			}
+
+			pxCIO->write( (char *)response, response_size);
+
+			xSuccess = pdTRUE;
+		}
     }
 
     if( xSuccess == pdFALSE )
