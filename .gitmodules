@@ -28,25 +28,9 @@
 	path = Middlewares/Third_Party/ARM/mbedtls
 	url = https://github.com/Mbed-TLS/mbedtls.git
 	fetchRecurseSubmodules = false
-[submodule "Middlewares/Third_Party/AWS/IoTDeviceDefender"]
-	path = Middlewares/Third_Party/AWS/IoTDeviceDefender
-	url = https://github.com/aws/Device-Defender-for-AWS-IoT-embedded-sdk.git
-	fetchRecurseSubmodules = false
-[submodule "Middlewares/Third_Party/AWS/DeviceShadow"]
-	path = Middlewares/Third_Party/AWS/DeviceShadow
-	url = https://github.com/aws/Device-Shadow-for-AWS-IoT-embedded-sdk.git
-	fetchRecurseSubmodules = false
 [submodule "Middlewares/Third_Party/FreeRTOS/backoffAlgorithm"]
 	path = Middlewares/Third_Party/FreeRTOS/backoffAlgorithm
 	url = https://github.com/FreeRTOS/backoffAlgorithm.git
-	fetchRecurseSubmodules = false
-[submodule "Middlewares/Third_Party/AWS/IoTJobs"]
-	path = Middlewares/Third_Party/AWS/IoTJobs
-	url = https://github.com/aws/Jobs-for-AWS-IoT-embedded-sdk.git
-	fetchRecurseSubmodules = false
-[submodule "Middlewares/Third_Party/AWS/OTA"]
-	path = Middlewares/Third_Party/AWS/OTA
-	url = https://github.com/aws/ota-for-aws-iot-embedded-sdk.git
 	fetchRecurseSubmodules = false
 [submodule "Middlewares/Third_Party/lwip"]
 	path = Middlewares/Third_Party/lwip
