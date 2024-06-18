@@ -91,6 +91,8 @@ int hw_init(void);
 #define CEC_CLK_GPIO_Port GPIOA
 #define OSC_25M_Pin GPIO_PIN_0
 #define OSC_25M_GPIO_Port GPIOH
+#define DHT11_DATA_Pin GPIO_PIN_10
+#define DHT11_DATA_GPIO_Port GPIOF
 #define LED2_Pin GPIO_PIN_5
 #define LED2_GPIO_Port GPIOJ
 #define USER_BUTTON_Pin GPIO_PIN_0

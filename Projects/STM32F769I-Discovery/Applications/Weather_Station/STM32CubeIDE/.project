@@ -246,6 +246,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/crypto/rng_alt_stm32.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/dht11/dht11.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/dht11/dht11.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/esp8266/esp8266.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266/esp8266.c</locationURI>

@@ -51,6 +51,8 @@
 
 //#include "low_level_ext_flash.h"
 
+#include "dht11.h"
+
 /* Definition for Qualification Test */
 #if ( DEVICE_ADVISOR_TEST_ENABLED == 1 ) || ( MQTT_TEST_ENABLED == 1 ) || ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 ) || \
     ( OTA_PAL_TEST_ENABLED == 1 ) || ( OTA_E2E_TEST_ENABLED == 1 ) || ( CORE_PKCS11_TEST_ENABLED == 1 )
@@ -110,6 +112,9 @@ void vInitTask( void * pvArgs )
     ( void ) xEventGroupSetBits( xSystemEvents, EVT_MASK_FS_READY );
 
     xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
+   configASSERT( xResult == pdTRUE );
+
+   xResult = xTaskCreate( &vTaskDHT11, "DHT11", 1024, NULL, 23, NULL );
    configASSERT( xResult == pdTRUE );
     
 //    xResult = xTaskCreate( &net_main, "EthNet", 512, NULL, 23, NULL );
