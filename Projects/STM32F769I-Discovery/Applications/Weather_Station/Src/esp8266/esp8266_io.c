@@ -23,13 +23,13 @@
 #include "esp8266_io.h"
 
 /* Private define ------------------------------------------------------------*/
-#define RING_BUFFER_SIZE                         (1024 * 2)
+#define RING_BUFFER_SIZE                         (1024 * 4)
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct
 {
   uint8_t  data[RING_BUFFER_SIZE];
-  uint16_t tail; 				
+  uint16_t tail;
   uint16_t head;
 }RingBuffer_t;
 
@@ -58,7 +58,7 @@ int8_t ESP8266_IO_Init(void)
    call the former to read another char.  */
   WiFiRxBuffer.head = 0;
   WiFiRxBuffer.tail = 0;
- 
+
   HAL_UART_Receive_IT(&xESP8266Handle, (uint8_t *)&WiFiRxBuffer.data[WiFiRxBuffer.tail], 1);
 
   return 0;
@@ -80,7 +80,7 @@ void ESP8266_IO_DeInit(void)
 /**
   * @brief  Send Data to the ESP8266 module over the UART interface.
   *         This function allows sending data to the  ESP8266 WiFi Module, the
-  *          data can be either an AT command or raw data to send over 
+  *          data can be either an AT command or raw data to send over
              a pre-established WiFi connection.
   * @param pData: data to send.
   * @param Length: the data length.
@@ -94,7 +94,7 @@ int8_t ESP8266_IO_Send(uint8_t* pData, uint32_t Length)
   {
      return -1;
   }
-  
+
   return 0;
 }
 
@@ -110,7 +110,7 @@ int8_t ESP8266_IO_Send(uint8_t* pData, uint32_t Length)
 int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length)
 {
   uint32_t ReadData = 0;
-  
+
   /* Loop until data received */
   while (Length--)
   {
@@ -122,7 +122,7 @@ int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length)
         /* serial data available, so return data to user */
         *Buffer++ = WiFiRxBuffer.data[WiFiRxBuffer.head++];
         ReadData++;
-		
+
         /* check for ring buffer wrap */
         if (WiFiRxBuffer.head >= RING_BUFFER_SIZE)
         {
@@ -133,7 +133,7 @@ int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length)
       }
     }while((HAL_GetTick() - tickStart ) < DEFAULT_TIME_OUT);
   }
-  
+
   return ReadData;
 }
 
@@ -143,14 +143,14 @@ int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length)
   * @retval None.
   */
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
+void HAL_UART_RxCpltCallback_WIFIHandler(UART_HandleTypeDef *UartHandle)
 {
   /* If ring buffer end is reached reset tail pointer to start of buffer */
   if(++WiFiRxBuffer.tail >= RING_BUFFER_SIZE)
   {
-    WiFiRxBuffer.tail = 0;   
+    WiFiRxBuffer.tail = 0;
   }
-  
+
   HAL_UART_Receive_IT(UartHandle, (uint8_t *)&WiFiRxBuffer.data[WiFiRxBuffer.tail], 1);
 }
 
@@ -159,7 +159,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
   * @param  UartHandle: Uart handle receiving the data.
   * @retval None.
   */
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
+void HAL_UART_ErrorCallback_WIFIHandler(UART_HandleTypeDef *UartHandle)
 {
    /* Call  the WIFI_Handler() to deinitialize the UART Interface. */
     WIFI_Handler();
@@ -173,7 +173,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
 static void WIFI_Handler(void)
 {
   HAL_UART_DeInit(&xESP8266Handle);
-  
+
   while(1)
   {
   }

@@ -28,6 +28,13 @@
 #include "task.h"
 
 #include "cli.h"
+#include "esp8266_io.h"
+
+#include "wm_sg_sm_42.h"
+#include "wm_sg_sm_42_io.h"
+
+#include "i_nucleo_lrwan1_pressure.h"
+#include "i_nucleo_lrwan1_wm_sg_sm_xx.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,19 +54,26 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+I2C_HandleTypeDef hi2c1;
+
 RNG_HandleTypeDef hrng;
 
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN PV */
 uint8_t IpAddress[15];
+
+void *LPS22HB_P_0_handle = NULL;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MPU_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_I2C1_Init(void);
+static void MX_USART6_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -135,6 +149,54 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief I2C1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C1_Init(void)
+{
+
+  /* USER CODE BEGIN I2C1_Init 0 */
+
+  /* USER CODE END I2C1_Init 0 */
+
+  /* USER CODE BEGIN I2C1_Init 1 */
+
+  /* USER CODE END I2C1_Init 1 */
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.Timing = 0x6000030D;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c1, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C1_Init 2 */
+
+  /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
   * @brief RNG Initialization Function
   * @param None
   * @retval None
@@ -184,7 +246,8 @@ void MX_UART5_Init(void)
   huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart5.Init.OverSampling = UART_OVERSAMPLING_16;
   huart5.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart5.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_DMADISABLEONERROR_INIT;
+  huart5.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT;
+  huart5.AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE;
   huart5.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR;
   if (HAL_UART_Init(&huart5) != HAL_OK)
   {
@@ -232,6 +295,43 @@ void MX_USART1_UART_Init(void)
 }
 
 /**
+  * @brief USART6 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART6_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART6_Init 0 */
+
+  /* USER CODE END USART6_Init 0 */
+
+  /* USER CODE BEGIN USART6_Init 1 */
+
+  /* USER CODE END USART6_Init 1 */
+  huart6.Instance = USART6;
+  huart6.Init.BaudRate = 115200;
+  huart6.Init.WordLength = UART_WORDLENGTH_8B;
+  huart6.Init.StopBits = UART_STOPBITS_1;
+  huart6.Init.Parity = UART_PARITY_NONE;
+  huart6.Init.Mode = UART_MODE_TX_RX;
+  huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart6.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart6.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart6.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_RXOVERRUNDISABLE_INIT|UART_ADVFEATURE_DMADISABLEONERROR_INIT;
+  huart6.AdvancedInit.OverrunDisable = UART_ADVFEATURE_OVERRUN_DISABLE;
+  huart6.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR;
+  if (HAL_UART_Init(&huart6) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART6_Init 2 */
+
+  /* USER CODE END USART6_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -243,6 +343,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOJ_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
@@ -271,6 +372,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(CEC_CLK_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : LPS22HB_INT1_Pin */
+  GPIO_InitStruct.Pin = LPS22HB_INT1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(LPS22HB_INT1_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : DHT11_DATA_Pin */
   GPIO_InitStruct.Pin = DHT11_DATA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -286,6 +393,9 @@ static void MX_GPIO_Init(void)
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
   HAL_GPIO_WritePin(ESP8266_RST_GPIO_Port, ESP8266_RST_Pin, GPIO_PIN_SET);
@@ -318,11 +428,14 @@ int hw_init(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART1_UART_Init();
-  MX_RNG_Init();
-  MX_UART5_Init();
+  MX_RNG_Init();			/* Random Number Generator */
+  MX_USART1_UART_Init(); 	/* Virtual COM Port */
+  MX_UART5_Init(); 			/* ESP8266 (Wi-Fi) AT CMD */
+  MX_USART6_UART_Init(); 	/* I_NUCLEO_LRWAN1 (LoRa) AT CMD */
+  MX_I2C1_Init();			/* I_NUCLEO_LRWAN1 sensors + Groove connector */
 
   ESP8266_StatusTypeDef Status;
+  LORA_StatusTypeDef StatusLORA;
 
   /* Initialize the WiFi module ESP8266 */
   Status = ESP8266_Init();
@@ -333,15 +446,89 @@ int hw_init(void)
 	  Error_Handler();
   }
 
+  /* Initialize the WiFi module ESP8266 */
+  StatusLORA = LORA_Init();
+
+  /* Check if initialization passed */
+  if (StatusLORA != LORA_OK)
+  {
+	  Error_Handler();
+  }
 
   /* Initialize uart for logging before cli is up and running */
   vInitLoggingEarly();
   vLoggingInit();
 
+//  initializeAllSensors();
+//  enableAllSensors();
+
   LogInfo( "HW Init Complete" );
+
+  HAL_StatusTypeDef RetCode;
+  /*transmit the command from master to slave*/
+  RetCode = HAL_UART_Transmit(&huart6, (uint8_t *)"AT", sizeof("AT"), 5000);
 
   return 0;
 
+}
+
+/*-----------------------------------------------------------*/
+
+/**
+* @brief  Initialize all sensors
+* @param  None
+* @retval None
+*/
+//void initializeAllSensors( void )
+//{
+//	if (BSP_PRESSURE_Init( LPS22HB_P_0, &LPS22HB_P_0_handle ) != COMPONENT_OK)
+//	{
+//		LogError( "BSP_PRESSURE_Init failed" );
+//	}
+//
+//}
+
+/*-----------------------------------------------------------*/
+
+/**
+* @brief  Enable all sensors
+* @param  None
+* @retval None
+*/
+//void enableAllSensors( void )
+//{
+//	BSP_PRESSURE_Sensor_Enable( LPS22HB_P_0_handle );
+//	LogInfo( "LPS22HB Pressure sensor initialized and enabled" );
+//
+//}
+
+/*-----------------------------------------------------------*/
+
+/**
+  * @brief  Rx Callback when new data is received on the UART.
+  * @param  UartHandle: Uart handle receiving the data.
+  * @retval None.
+  */
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
+{
+	if (UartHandle == &xESP8266Handle) {
+		HAL_UART_RxCpltCallback_WIFIHandler(UartHandle);
+	}
+	else if (UartHandle == &xLORAHandle) {
+		HAL_UART_RxCpltCallback_LORAHandler(UartHandle);
+	}
+}
+
+/*-----------------------------------------------------------*/
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
+{
+	if (UartHandle == &xESP8266Handle) {
+		HAL_UART_ErrorCallback_WIFIHandler(UartHandle);
+	}
+	else if (UartHandle == &xLORAHandle) {
+		HAL_UART_ErrorCallback_LORAHandler(UartHandle);
+	}
 }
 
 /*-----------------------------------------------------------*/

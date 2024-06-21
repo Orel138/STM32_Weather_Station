@@ -50,13 +50,17 @@ extern "C" {
 /* USER CODE BEGIN EC */
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart5;
+extern UART_HandleTypeDef huart6;
 extern RNG_HandleTypeDef hrng;
+extern I2C_HandleTypeDef hi2c1;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define xConsoleHandle huart1
 #define xESP8266Handle huart5
+#define xLORAHandle huart6
+#define xLRWANHandle huart6
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -91,6 +95,9 @@ int hw_init(void);
 #define CEC_CLK_GPIO_Port GPIOA
 #define OSC_25M_Pin GPIO_PIN_0
 #define OSC_25M_GPIO_Port GPIOH
+#define LPS22HB_INT1_Pin GPIO_PIN_8
+#define LPS22HB_INT1_GPIO_Port GPIOC
+#define LPS22HB_INT1_EXTI_IRQn EXTI9_5_IRQn
 #define DHT11_DATA_Pin GPIO_PIN_10
 #define DHT11_DATA_GPIO_Port GPIOF
 #define LED2_Pin GPIO_PIN_5
@@ -100,7 +107,7 @@ int hw_init(void);
 #define USER_BUTTON_EXTI_IRQn EXTI0_IRQn
 
 /* USER CODE BEGIN Private defines */
-
+extern void *LPS22HB_P_0_handle;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

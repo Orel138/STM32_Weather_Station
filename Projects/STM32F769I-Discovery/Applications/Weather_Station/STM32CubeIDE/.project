@@ -36,6 +36,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Weather_Station.ioc</locationURI>
 		</link>
 		<link>
+			<name>Utilities/stm32_tiny_sscanf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Utilities/misc/stm32_tiny_sscanf.c</locationURI>
+		</link>
+		<link>
+			<name>Utilities/stm32_tiny_vsnprintf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Utilities/misc/stm32_tiny_vsnprintf.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/app_main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/app_main.c</locationURI>
@@ -264,6 +274,41 @@
 			<name>Application/User/esp8266/esp8266_rest_api.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266/esp8266_rest_api.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/wm_sg_sm_42/wm_sg_sm_42.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/wm_sg_sm_42/wm_sg_sm_42.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/wm_sg_sm_42/wm_sg_sm_42_io.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/wm_sg_sm_42/wm_sg_sm_42_io.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_humidity.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_humidity.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_pressure.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_pressure.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_temperature.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_temperature.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ARM/mbedtls/aes.c</name>
@@ -631,6 +676,11 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/corePKCS11/source/core_pki_utils.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/Common/cli/cli_lora.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_lora.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/Common/cli/cli_main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_main.c</locationURI>
@@ -669,6 +719,36 @@
 			<name>Application/User/Common/sys/newlibc_stubs.c</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/newlibc_stubs.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/hts221/HTS221_Driver.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/hts221/HTS221_Driver.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/hts221/HTS221_Driver_HL.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/hts221/HTS221_Driver_HL.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/lps22hb/LPS22HB_Driver.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/lps22hb/LPS22HB_Driver.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/lps22hb/LPS22HB_Driver_HL.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/lps22hb/LPS22HB_Driver_HL.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/lps25hb/LPS25HB_Driver.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/lps25hb/LPS25HB_Driver.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/lps25hb/LPS25HB_Driver_HL.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/lps25hb/LPS25HB_Driver_HL.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

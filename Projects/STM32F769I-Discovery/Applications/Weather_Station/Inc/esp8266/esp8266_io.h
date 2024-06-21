@@ -41,6 +41,9 @@ void ESP8266_IO_DeInit(void);
 int8_t ESP8266_IO_Send(uint8_t* Buffer, uint32_t Length);
 int32_t ESP8266_IO_Receive(uint8_t* Buffer, uint32_t Length);
 
+void HAL_UART_RxCpltCallback_WIFIHandler(UART_HandleTypeDef *UartHandle);
+void HAL_UART_ErrorCallback_WIFIHandler(UART_HandleTypeDef *UartHandle);
+
 #ifdef __cplusplus
 }
 #endif

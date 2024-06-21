@@ -53,6 +53,8 @@
 
 #include "dht11.h"
 
+#include "i_nucleo_lrwan1_pressure.h"
+
 /* Definition for Qualification Test */
 #if ( DEVICE_ADVISOR_TEST_ENABLED == 1 ) || ( MQTT_TEST_ENABLED == 1 ) || ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 ) || \
     ( OTA_PAL_TEST_ENABLED == 1 ) || ( OTA_E2E_TEST_ENABLED == 1 ) || ( CORE_PKCS11_TEST_ENABLED == 1 )
@@ -114,8 +116,8 @@ void vInitTask( void * pvArgs )
     xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
    configASSERT( xResult == pdTRUE );
 
-   xResult = xTaskCreate( &vTaskDHT11, "DHT11", 1024, NULL, 23, NULL );
-   configASSERT( xResult == pdTRUE );
+//   xResult = xTaskCreate( &vTaskDHT11, "DHT11", 1024, NULL, 23, NULL );
+//   configASSERT( xResult == pdTRUE );
     
 //    xResult = xTaskCreate( &net_main, "EthNet", 512, NULL, 23, NULL );
 //    configASSERT( xResult == pdTRUE );
@@ -142,6 +144,11 @@ void vInitTask( void * pvArgs )
 //    xResult = xTaskCreate( vImageValidationTask, "ImageValidation", 512 , NULL, 5, NULL );
 //    configASSERT( xResult == pdTRUE );
 //#endif /* DEMO_QUALIFICATION_TEST */
+
+   float *pressure = NULL;
+   BSP_PRESSURE_Get_Press(LPS22HB_P_0_handle, pressure);
+
+//   LogSys("pressure : %.2f", pressure);
     
     while( 1 )
     {
@@ -358,6 +365,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   if(GPIO_Pin == USER_BUTTON_Pin) {
     HAL_GPIO_TogglePin( LED2_GPIO_Port, LED2_Pin);
+
+    uint8_t *who_am_i;
+    if ( BSP_PRESSURE_Get_WhoAmI(LPS22HB_P_0_handle, who_am_i) == COMPONENT_OK)
+    {
+    	__NOP();
+    }
+
   } else {
       __NOP();
   }
