@@ -256,7 +256,7 @@ typedef enum eATEerror
 
 #endif
 
-#ifdef AT_ERROR_STRING
+#ifdef ENABLE_AT_ERROR_STRING
 /*RetCode used to compare the return code from modem*/
 static ATE_RetCode_t ATE_RetCode[] =
 {

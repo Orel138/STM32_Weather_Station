@@ -40,7 +40,7 @@
 
 static uint32_t I2C_EXPBD_Timeout =
   NUCLEO_I2C_EXPBD_TIMEOUT_MAX;    /*<! Value of Timeout when I2C communication fails */
-static I2C_HandleTypeDef I2C_EXPBD_Handle;
+//static I2C_HandleTypeDef I2C_EXPBD_Handle;
 
 /**
   * @}
@@ -96,7 +96,7 @@ DrvStatusTypeDef LSM6DS0_Sensor_IO_ITConfig(void)
 }
 
 
-
+#if 0
 /**
   * @brief  Configures sensor interrupts interface for LSM6DS3 sensor.
   * @param  None
@@ -147,12 +147,12 @@ DrvStatusTypeDef LSM6DS3_Sensor_IO_ITConfig(void)
   HAL_GPIO_Init(LSM6DS3_INT2_GPIO_PORT, &GPIO_InitStructureInt2);
 
   /* Enable and set EXTI Interrupt priority */
-  HAL_NVIC_SetPriority(LSM6DS3_INT2_EXTI_IRQn, 0x00, 0x00);
+	HAL_NVIC_SetPriority(LSM6DS3_INT2_EXTI_IRQn, 0x00, 0x00);
   HAL_NVIC_EnableIRQ(LSM6DS3_INT2_EXTI_IRQn);
 
   return COMPONENT_OK;
 }
-
+#endif
 
 
 /**
@@ -386,7 +386,6 @@ static void I2C_EXPBD_Error(uint8_t Addr)
 }
 
 
-
 /**
   * @brief I2C MSP Initialization
   * @param None
@@ -425,8 +424,8 @@ static void I2C_EXPBD_MspInit(void)
   NUCLEO_I2C_EXPBD_RELEASE_RESET();
 
   /* Enable and set I2C_EXPBD Interrupt to the highest priority */
-  HAL_NVIC_SetPriority(NUCLEO_I2C_EXPBD_EV_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(NUCLEO_I2C_EXPBD_EV_IRQn);
+//  HAL_NVIC_SetPriority(NUCLEO_I2C_EXPBD_EV_IRQn, 0, 0);
+//  HAL_NVIC_EnableIRQ(NUCLEO_I2C_EXPBD_EV_IRQn);
 
 #if ((defined (USE_STM32F4XX_NUCLEO)) || (defined (USE_STM32L1XX_NUCLEO)) || (defined (USE_STM32L4XX_NUCLEO)))
   /* Enable and set I2C_EXPBD Interrupt to the highest priority */
@@ -435,6 +434,7 @@ static void I2C_EXPBD_MspInit(void)
 #endif
 
 }
+
 
 /**
   * @}

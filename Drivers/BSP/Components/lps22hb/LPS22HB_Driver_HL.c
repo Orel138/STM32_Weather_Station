@@ -983,7 +983,8 @@ static DrvStatusTypeDef LPS22HB_Get_Press( DrvContextTypeDef *handle, float *pre
     return COMPONENT_ERROR;
   }
 
-  *pressure = ( float )int32data / 100.0f;
+//  *pressure = ( float )int32data / 100.0f;
+  *pressure = ( float )int32data / 100;
 
   return COMPONENT_OK;
 }

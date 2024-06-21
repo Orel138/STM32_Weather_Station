@@ -45,6 +45,13 @@ extern "C" {
 #include "stm32l4xx_hal.h"
 #endif
 
+#ifdef STM32F769xx
+#include "stm32f7xx_hal.h"
+#include "main.h"
+
+#define I2C_EXPBD_Handle hi2c1
+#endif
+
 #include "accelerometer.h"
 #include "gyroscope.h"
 #include "magnetometer.h"

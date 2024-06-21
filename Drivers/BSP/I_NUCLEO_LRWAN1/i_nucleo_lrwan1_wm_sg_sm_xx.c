@@ -22,19 +22,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
-#include "stm32l0xx_hal.h"
-#include "sys_conf.h"
-#include "usart.h"
+
+#include "main.h"
+
 #include "i_nucleo_lrwan1_wm_sg_sm_xx.h"
 #include "stm32_tiny_sscanf.h"
 
 #include <stdarg.h>
 #include "stm32_tiny_vsnprintf.h"
-#include "sys_debug.h"
 
-
-
-
+#define BAUD_RATE 9600
 
 /*!
  * Radio driver structure initialization
@@ -103,7 +100,7 @@ static char response[DATA_RX_MAX_BUFF_SIZE];
 
 #undef    __ATCMD_MODEM_H__    /*to avoid recursive include*/
 #define   AT_CMD_STRING
-#define   AT_ERROR_STRING
+#define   ENABLE_AT_ERROR_STRING
 #undef    AT_CMD_INDEX
 #undef    AT_ERROR_INDEX
 #include "atcmd_modem.h"   /*to include WM_SG_SM_42 specific string AT cmd definition*/
@@ -158,7 +155,7 @@ ATEerror_t Modem_IO_Init(void)
   *****************************************************************************/
 void Modem_IO_DeInit(void)
 {
-  HAL_UART_MspDeInit(&huart2);
+  HAL_UART_MspDeInit(&xLRWANHandle);
 }
 
 
@@ -496,7 +493,7 @@ static HAL_StatusTypeDef at_cmd_send(uint16_t len)
   HAL_StatusTypeDef RetCode;
 
   /*transmit the command from master to slave*/
-  RetCode = HAL_UART_Transmit(&huart2, (uint8_t *)LoRa_AT_Cmd_Buff, len, 5000);
+  RetCode = HAL_UART_Transmit(&xLRWANHandle, (uint8_t *)LoRa_AT_Cmd_Buff, len, 5000);
   return (RetCode);
 }
 
@@ -520,7 +517,7 @@ static ATEerror_t at_cmd_receive(void *pdata)
   memset(response, 0x00, 16);
 
   /*UART peripheral in reception process for response returned by slave*/
-  if (HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) != HAL_OK)
+  if (HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) != HAL_OK)
   {
     while (1);
   }
@@ -597,11 +594,11 @@ static ATEerror_t at_cmd_receive(void *pdata)
       }
     }
     i++;
-    HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) ;
+    HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) ;
     charnumber++;
   }
-  huart2.gState = HAL_UART_STATE_READY;
-  huart2.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
+  xLRWANHandle.gState = HAL_UART_STATE_READY;
+  xLRWANHandle.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
   return (RetCode);                             /*version of HAL .. there was not Rx field state*/
 }
 
@@ -626,7 +623,7 @@ static ATEerror_t at_cmd_receive_async_event(void)
   memset(response, 0x00, 16);
 
   /*UART peripheral in reception process for response returned by slave*/
-  if (HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) != HAL_OK)
+  if (HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) != HAL_OK)
   {
     while (1);
   }
@@ -675,11 +672,11 @@ static ATEerror_t at_cmd_receive_async_event(void)
       }
     }
     i++;
-    HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) ;
+    HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) ;
     charnumber++;
   }
-  huart2.gState = HAL_UART_STATE_READY;
-  huart2.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
+  xLRWANHandle.gState = HAL_UART_STATE_READY;
+  xLRWANHandle.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
   return (RetCode);                             /*version of HAL .. there was not Rx field state*/
 }
 
@@ -704,7 +701,7 @@ static ATEerror_t at_cmd_receive_async_event_downlink_data(void *pdata)
   memset(response, 0x00, 16);
 
   /*UART peripheral in reception process for response returned by slave*/
-  if (HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) != HAL_OK)
+  if (HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) != HAL_OK)
   {
     while (1);
   }
@@ -750,11 +747,11 @@ static ATEerror_t at_cmd_receive_async_event_downlink_data(void *pdata)
       }
     }
     i++;
-    HAL_UART_Receive_IT(&huart2, (uint8_t *)aRxBuffer, 1) ;
+    HAL_UART_Receive_IT(&xLRWANHandle, (uint8_t *)aRxBuffer, 1) ;
     charnumber++;
   }
-  huart2.gState = HAL_UART_STATE_READY;
-  huart2.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
+  xLRWANHandle.gState = HAL_UART_STATE_READY;
+  xLRWANHandle.RxState = HAL_UART_STATE_READY;        /*to be checked since was validated with previous */
   return (RetCode);                             /*version of HAL .. there was not Rx field state*/
 }
 
