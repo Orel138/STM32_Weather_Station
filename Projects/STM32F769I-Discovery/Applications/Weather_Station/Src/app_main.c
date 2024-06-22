@@ -29,23 +29,43 @@
  *
  */
 
+ /*
+ * Modifications Copyright (c) 2024 Orel138
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #include "logging_levels.h"
 #define LOG_LEVEL LOG_DEBUG
 #include "logging.h"
-
 #include "main.h"
-
 #include "sys_evt.h"
-
 #include "FreeRTOS.h"
 #include "task.h"
+#include "kvstore.h"
 
-//#include "kvstore.h"
 //#include "appli_flash_layout.h"
 
 //#include "flash.h"
 #include "cli.h"
-//#include "test_execution_config.h"
+#include "lfs.h"
+#include "lfs_port.h"
 
 //#include "stdlib.h" /* rand() */
 
@@ -55,19 +75,82 @@
 
 #include "i_nucleo_lrwan1_pressure.h"
 
-/* Definition for Qualification Test */
-#if ( DEVICE_ADVISOR_TEST_ENABLED == 1 ) || ( MQTT_TEST_ENABLED == 1 ) || ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 ) || \
-    ( OTA_PAL_TEST_ENABLED == 1 ) || ( OTA_E2E_TEST_ENABLED == 1 ) || ( CORE_PKCS11_TEST_ENABLED == 1 )
-#define DEMO_QUALIFICATION_TEST    ( 1 )
-
-#else
-#define DEMO_QUALIFICATION_TEST    ( 0 )
-#endif /* ( DEVICE_ADVISOR_TEST_ENABLED == 1 ) || ( MQTT_TEST_ENABLED == 1 ) || ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 ) || \
-        * ( OTA_PAL_TEST_ENABLED == 1 ) || ( OTA_E2E_TEST_ENABLED == 1 ) || ( CORE_PKCS11_TEST_ENABLED == 1 ) */
-
 //extern IWDG_HandleTypeDef hiwdg;
 
+static lfs_t * pxLfsCtx = NULL;
+
 EventGroupHandle_t xSystemEvents = NULL;
+
+lfs_t * pxGetDefaultFsCtx( void )
+{
+    while( pxLfsCtx == NULL )
+    {
+        LogDebug( "Waiting for FS Initialization." );
+        /* Wait for FS to be initialized */
+        vTaskDelay( 1000 );
+    }
+    return pxLfsCtx;
+}
+
+//static int fs_init( void )
+//{
+//    static lfs_t xLfsCtx = { 0 };
+//
+//    struct lfs_info xDirInfo = { 0 };
+//
+//    /* Block time of up to 1 s for filesystem to initialize */
+//    //const struct lfs_config * pxCfg = pxInitializeOSPIFlashFs( pdMS_TO_TICKS( 30 * 1000 ) );
+//
+//    /* mount the filesystem */
+//    int err = lfs_mount( &xLfsCtx, pxCfg );
+//
+//    /* format if we can't mount the filesystem
+//     * this should only happen on the first boot
+//     */
+//    if( err != LFS_ERR_OK )
+//    {
+//        LogError( "Failed to mount partition. Formatting..." );
+//        err = lfs_format( &xLfsCtx, pxCfg );
+//
+//        if( err == 0 )
+//        {
+//            err = lfs_mount( &xLfsCtx, pxCfg );
+//        }
+//
+//        if( err != LFS_ERR_OK )
+//        {
+//            LogError( "Failed to format littlefs device." );
+//        }
+//    }
+//
+//    if( lfs_stat( &xLfsCtx, "/cfg", &xDirInfo ) == LFS_ERR_NOENT )
+//    {
+//        err = lfs_mkdir( &xLfsCtx, "/cfg" );
+//
+//        if( err != LFS_ERR_OK )
+//        {
+//            LogError( "Failed to create /cfg directory." );
+//        }
+//    }
+//
+//    if( lfs_stat( &xLfsCtx, "/ota", &xDirInfo ) == LFS_ERR_NOENT )
+//    {
+//        err = lfs_mkdir( &xLfsCtx, "/ota" );
+//
+//        if( err != LFS_ERR_OK )
+//        {
+//            LogError( "Failed to create /ota directory." );
+//        }
+//    }
+//
+//    if( err == 0 )
+//    {
+//        /* Export the FS context */
+//        pxLfsCtx = &xLfsCtx;
+//    }
+//
+//    return err;
+//}
 
 static void vHeartbeatTask( void * pvParameters )
 {
@@ -92,29 +175,40 @@ static void vHeartbeatTask( void * pvParameters )
 //extern void vDefenderAgentTask( void * );
 //extern void vSensorDataPublishTask( void * pvParameters );
 //extern void vShadowUpdateTask( void * pvParameters );
-//#if DEMO_QUALIFICATION_TEST
-//extern void run_qualification_main( void * );
-//#endif /* DEMO_QUALIFICATION_TEST */
-
-//extern void otaPal_EarlyInit( void );
 
 void vInitTask( void * pvArgs )
 {
     BaseType_t xResult;
+    int xMountStatus;
 
     ( void ) pvArgs;
     
     xResult = xTaskCreate( Task_CLI, "cli", 2048, NULL, 10, NULL );
     configASSERT( xResult == pdTRUE );
 
-//    KVStore_init();
-    
-//    otaPal_EarlyInit();
-    
-    ( void ) xEventGroupSetBits( xSystemEvents, EVT_MASK_FS_READY );
+//    xMountStatus = fs_init();
+//
+//	if( xMountStatus == LFS_ERR_OK )
+//	{
+//		/*
+//		 * FIXME: Need to debug  the cause of internal flash status register error here.
+//		 * Clearing the flash status register as a workaround.
+//		 */
+//		FLASH_WaitForLastOperation( 50000U ); // = FLASH_TIMEOUT_VALUE
+//
+//		LogInfo( "File System mounted." );
+//
+//		( void ) xEventGroupSetBits( xSystemEvents, EVT_MASK_FS_READY );
+//
+//		KVStore_init();
+//	}
+//	else
+//	{
+//		LogError( "Failed to mount filesystem." );
+//	}
 
     xResult = xTaskCreate( vHeartbeatTask, "Heartbeat", 128, NULL, tskIDLE_PRIORITY, NULL );
-   configASSERT( xResult == pdTRUE );
+    configASSERT( xResult == pdTRUE );
 
 //   xResult = xTaskCreate( &vTaskDHT11, "DHT11", 1024, NULL, 23, NULL );
 //   configASSERT( xResult == pdTRUE );
@@ -122,10 +216,6 @@ void vInitTask( void * pvArgs )
 //    xResult = xTaskCreate( &net_main, "EthNet", 512, NULL, 23, NULL );
 //    configASSERT( xResult == pdTRUE );
 //
-//#if DEMO_QUALIFICATION_TEST
-//    xResult = xTaskCreate( run_qualification_main, "QualTest", 4096, NULL, 10, NULL );
-//    configASSERT( xResult == pdTRUE );
-//#else
 //    xResult = xTaskCreate( vMQTTAgentTask, "MQTTAgent", 1024, NULL, 10, NULL );
 //    configASSERT( xResult == pdTRUE );
 //
@@ -140,10 +230,6 @@ void vInitTask( void * pvArgs )
 //
 //    xResult = xTaskCreate( vDefenderAgentTask, "AWSDefender", 512 , NULL, 5, NULL );
 //    configASSERT( xResult == pdTRUE );
-//
-//    xResult = xTaskCreate( vImageValidationTask, "ImageValidation", 512 , NULL, 5, NULL );
-//    configASSERT( xResult == pdTRUE );
-//#endif /* DEMO_QUALIFICATION_TEST */
 
    float *pressure = NULL;
    BSP_PRESSURE_Get_Press(LPS22HB_P_0_handle, pressure);

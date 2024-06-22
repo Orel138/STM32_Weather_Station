@@ -276,6 +276,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Src/esp8266/esp8266_rest_api.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/fs/lfs_port_prv.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Src/fs/lfs_port_prv.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/wm_sg_sm_42/wm_sg_sm_42.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Src/wm_sg_sm_42/wm_sg_sm_42.c</locationURI>
@@ -309,6 +314,26 @@
 			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ARM/littlefs/lfs.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/ARM/littlefs/lfs.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ARM/littlefs/lfs_filebd.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/ARM/littlefs/bd/lfs_filebd.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ARM/littlefs/lfs_rambd.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/ARM/littlefs/bd/lfs_rambd.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/ARM/littlefs/lfs_util.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/ARM/littlefs/lfs_util.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ARM/mbedtls/aes.c</name>
@@ -676,6 +701,11 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Middlewares/Third_Party/FreeRTOS/corePKCS11/source/core_pki_utils.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/Common/cli/cli_conf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_conf.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/Common/cli/cli_lora.c</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/cli_lora.c</locationURI>
@@ -709,6 +739,21 @@
 			<name>Application/User/Common/cli/logging.c</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Common/cli/logging.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/kvstore/kvstore.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/kvstore/kvstore.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/kvstore/kvstore_cache.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/kvstore/kvstore_cache.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/Common/kvstore/kvstore_nv_littlefs.c</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Common/kvstore/kvstore_nv_littlefs.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/Common/sys/mbedtls_freertos_port.c</name>

@@ -28,6 +28,8 @@
 #include "cli_prv.h"
 #include "logging.h"
 
+#include "kvstore.h"
+
 #include <string.h>
 #include <stdlib.h>
 

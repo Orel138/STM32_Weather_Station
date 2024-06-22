@@ -23,6 +23,28 @@
  *
  */
 
+ /*
+ * Modifications Copyright (c) 2024 Orel138
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef _KVSTORE_CONFIG_H
 #define _KVSTORE_CONFIG_H
 
@@ -44,35 +66,6 @@ typedef enum KvStoreEnum
 } KVStoreKey_t;
 
 /* -------------------------------- Values for common attributes -------------------------------- */
-
-/* Note: If TEST_AUTOMATION_INTEGRATION == 1 (in ota_config.h), settings below will be forcely used
- * in runtime. Please set to 0 or "" to skip them if you want to use the value in flash. */
-#if ( TEST_AUTOMATION_INTEGRATION == 1 )
-#if ( OTA_E2E_TEST_ENABLED == 1 )
-
-#define THING_NAME_DFLT       IOT_THING_NAME
-#define MQTT_ENDPOINT_DFLT    MQTT_SERVER_ENDPOINT
-#define MQTT_PORT_DFLT        MQTT_SERVER_PORT
-
-#elif ( MQTT_TEST_ENABLED == 1 )
-
-#define THING_NAME_DFLT       MQTT_TEST_CLIENT_IDENTIFIER
-#define MQTT_ENDPOINT_DFLT    MQTT_SERVER_ENDPOINT
-#define MQTT_PORT_DFLT        MQTT_SERVER_PORT
-
-#elif ( TRANSPORT_INTERFACE_TEST_ENABLED == 1 )
-
-#define MQTT_ENDPOINT_DFLT    ECHO_SERVER_ENDPOINT
-#define MQTT_PORT_DFLT        ECHO_SERVER_PORT
-
-#elif ( DEVICE_ADVISOR_TEST_ENABLED == 1 )
-
-#define THING_NAME_DFLT       IOT_THING_NAME
-#define MQTT_ENDPOINT_DFLT    MQTT_SERVER_ENDPOINT
-#define MQTT_PORT_DFLT        MQTT_SERVER_PORT
-
-#endif /* ( OTA_E2E_TEST_ENABLED == 1 ) || ( MQTT_TEST_ENABLED == 1 ) */
-#endif /* if ( TEST_AUTOMATION_INTEGRATION == 1 ) */
 
 #if !defined( THING_NAME_DFLT )
 #define THING_NAME_DFLT    ""
