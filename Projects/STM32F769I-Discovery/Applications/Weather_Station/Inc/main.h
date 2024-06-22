@@ -53,6 +53,7 @@ extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart6;
 extern RNG_HandleTypeDef hrng;
 extern I2C_HandleTypeDef hi2c1;
+extern IWDG_HandleTypeDef hiwdg;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -71,7 +72,12 @@ void MX_UART5_Init(void);
 
 /* USER CODE BEGIN EFP */
 int main_app( void );
-int hw_init(void);
+int hw_init( void );
+void vDoSystemReset( void );
+static inline void vPetWatchdog( void )
+{
+	(void) HAL_IWDG_Refresh( &hiwdg );
+}
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

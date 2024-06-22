@@ -75,8 +75,6 @@
 
 #include "i_nucleo_lrwan1_pressure.h"
 
-//extern IWDG_HandleTypeDef hiwdg;
-
 static lfs_t * pxLfsCtx = NULL;
 
 EventGroupHandle_t xSystemEvents = NULL;
@@ -394,7 +392,7 @@ void vApplicationGetTimerTaskMemory( StaticTask_t ** ppxTimerTaskTCBBuffer,
 #if configUSE_IDLE_HOOK == 1
 void vApplicationIdleHook( void )
 {
-//    vPetWatchdog();
+    vPetWatchdog();
 }
 #endif /* configUSE_IDLE_HOOK == 1 */
 
@@ -432,7 +430,7 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask,
 
 void vDoSystemReset( void )
 {
-//    vPetWatchdog();
+    vPetWatchdog();
 
     if( xTaskGetSchedulerState() == taskSCHEDULER_RUNNING )
     {
