@@ -47,3 +47,6 @@
 [submodule "Middlewares/Third_Party/FreeRTOS/coreMQTT"]
 	path = Middlewares/Third_Party/FreeRTOS/coreMQTT
 	url = https://github.com/FreeRTOS/coreMQTT.git
+[submodule "Drivers/BSP/Components/mx25l512"]
+	path = Drivers/BSP/Components/mx25l512
+	url = https://github.com/STMicroelectronics/stm32-mx25l512.git
