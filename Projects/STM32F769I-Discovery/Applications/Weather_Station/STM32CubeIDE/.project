@@ -36,6 +36,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Weather_Station.ioc</locationURI>
 		</link>
 		<link>
+			<name>Utilities/lcd_log.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Utilities/Log/lcd_log.c</locationURI>
+		</link>
+		<link>
 			<name>Utilities/stm32_tiny_sscanf.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Utilities/misc/stm32_tiny_sscanf.c</locationURI>
@@ -86,6 +91,16 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_adc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_adc_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_cortex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.c</locationURI>
@@ -96,9 +111,19 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_dma2d.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma2d.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_dma_ex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma_ex.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_dsi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dsi.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_exti.c</name>
@@ -136,6 +161,16 @@
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_iwdg.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_ltdc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_ltdc_ex.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_ltdc_ex.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_pwr.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.c</locationURI>
@@ -144,6 +179,11 @@
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_pwr_ex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_qspi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_qspi.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_rcc.c</name>
@@ -189,6 +229,11 @@
 			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_hal_uart_ex.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart_ex.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/STM32F7xx_HAL_Driver/stm32f7xx_ll_fmc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_fmc.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/tinycbor/cborencoder.c</name>
@@ -319,6 +364,36 @@
 			<name>Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/I_NUCLEO_LRWAN1/i_nucleo_lrwan1_wm_sg_sm_xx.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_lcd.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_lcd.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_qspi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_qspi.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sd.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sd.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sdram.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sdram.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_ts.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_ts.c</locationURI>
 		</link>
 		<link>
 			<name>Middlewares/ARM/littlefs/lfs.c</name>
@@ -771,6 +846,16 @@
 			<locationURI>PARENT-4-PROJECT_LOC/Common/sys/newlibc_stubs.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/BSP/Components/adv7533/adv7533.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/adv7533/adv7533.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/ft6x06/ft6x06.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/ft6x06/ft6x06.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/BSP/Components/hts221/HTS221_Driver.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/hts221/HTS221_Driver.c</locationURI>
@@ -799,6 +884,16 @@
 			<name>Drivers/BSP/Components/lps25hb/LPS25HB_Driver_HL.c</name>
 			<type>1</type>
 			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/lps25hb/LPS25HB_Driver_HL.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/nt35510/nt35510.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/nt35510/nt35510.c</locationURI>
+		</link>
+		<link>
+			<name>Drivers/BSP/Components/otm8009a/otm8009a.c</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Drivers/BSP/Components/otm8009a/otm8009a.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
