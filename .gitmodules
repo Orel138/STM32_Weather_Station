@@ -62,3 +62,6 @@
 [submodule "Drivers/BSP/Components/ft6x06"]
 	path = Drivers/BSP/Components/ft6x06
 	url = https://github.com/STMicroelectronics/stm32-ft6x06.git
+[submodule "Drivers/BSP/Components/Common"]
+	path = Drivers/BSP/Components/Common
+	url = https://github.com/STMicroelectronics/stm32-bsp-common.git
